@@ -1,0 +1,50 @@
+{
+  "name": "mliev-dwz-mcp",
+  "version": "1.0.0",
+  "description": "基于 MCP 协议的短网址客户端，为 AI 助手提供短网址生成和管理功能",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "build": "echo 'No build step required for Node.js'",
+    "test": "node --test tests/**/*.test.js",
+    "test:watch": "node --watch --test tests/**/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage tests/**/*.test.js",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write src/**/*.js"
+  },
+  "keywords": [
+    "mcp",
+    "short-url",
+    "url-shortener",
+    "ai-assistant",
+    "model-context-protocol"
+  ],
+  "author": "mliev",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.0",
+    "dotenv": "^17.2.3",
+    "joi": "^17.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mliev/mliev-dwz-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mliev/mliev-dwz-mcp/issues"
+  },
+  "homepage": "https://github.com/mliev/mliev-dwz-mcp#readme"
+}
