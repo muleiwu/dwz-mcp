@@ -98,7 +98,7 @@ export class ShortLinkService {
 
       // 发送请求
       const response = await this.httpClient.post(
-        getApiUrl('/shortlinks'),
+        getApiUrl('/short_links'),
         validatedParams
       );
 
@@ -134,7 +134,7 @@ export class ShortLinkService {
 
       // 发送请求
       const response = await this.httpClient.get(
-        getApiUrl(`/shortlinks/${id}`)
+        getApiUrl(`/short_links/${id}`)
       );
 
       // 处理响应
@@ -177,7 +177,7 @@ export class ShortLinkService {
 
       // 发送请求
       const response = await this.httpClient.put(
-        getApiUrl(`/shortlinks/${validatedParams.id}`),
+        getApiUrl(`/short_links/${validatedParams.id}`),
         validatedParams
       );
 
@@ -212,7 +212,7 @@ export class ShortLinkService {
 
       // 发送请求
       const response = await this.httpClient.delete(
-        getApiUrl(`/shortlinks/${id}`)
+        getApiUrl(`/short_links/${id}`)
       );
 
       // 处理响应
@@ -249,7 +249,7 @@ export class ShortLinkService {
 
       // 发送请求
       const response = await this.httpClient.post(
-        getApiUrl('/shortlinks/batch'),
+        getApiUrl('/short_links/batch'),
         {
           ...validatedParams,
           urls: normalizedUrls,
@@ -293,7 +293,7 @@ export class ShortLinkService {
 
       // 发送请求
       const response = await this.httpClient.get(
-        getApiUrl(`/shortlinks/${validatedParams.id}/statistics`),
+        getApiUrl(`/short_links/${validatedParams.id}/statistics`),
         queryParams
       );
 

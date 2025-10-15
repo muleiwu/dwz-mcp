@@ -37,7 +37,7 @@ export const listShortUrlsTool = {
         type: 'string',
         description: '按域名筛选（可选）',
         pattern: '^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-        examples: ['short.ly', 'n3.ink'],
+        examples: ['short.ly'],
       },
       keyword: {
         type: 'string',

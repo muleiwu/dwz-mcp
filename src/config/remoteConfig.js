@@ -30,21 +30,6 @@ const DEFAULT_CONFIG = {
   LOG_LEVEL: process.env.LOG_LEVEL || 'info',
 };
 
-// API 端点配置
-const API_ENDPOINTS = {
-  // 短链接相关
-  CREATE_SHORT_URL: '/shortlinks',
-  LIST_SHORT_URLS: '/short_links',
-  GET_SHORT_URL: '/shortlinks',
-  UPDATE_SHORT_URL: '/shortlinks',
-  DELETE_SHORT_URL: '/shortlinks',
-  BATCH_CREATE_SHORT_URLS: '/shortlinks/batch',
-  GET_URL_STATISTICS: '/shortlinks/statistics',
-
-  // 域名管理相关（暂不暴露给MCP客户端）
-  CREATE_DOMAIN: '/domains',
-};
-
 /**
  * 获取完整的API端点URL
  * @param {string} endpoint - API端点
@@ -171,7 +156,6 @@ function getLogger() {
 
 export {
   DEFAULT_CONFIG,
-  API_ENDPOINTS,
   getApiUrl,
   getHeaders,
   validateConfig,

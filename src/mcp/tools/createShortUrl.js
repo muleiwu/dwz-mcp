@@ -28,7 +28,7 @@ export const createShortUrlTool = {
         type: 'string',
         description: '短网址使用的域名（必填）',
         pattern: '^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-        examples: ['short.ly', 'n3.ink', 'link.example.com'],
+        examples: ['dwz.test', 'link.example.com'],
       },
       custom_code: {
         type: 'string',
@@ -116,7 +116,7 @@ export const createShortUrlExamples = [
     description: '使用自定义短代码创建短网址',
     input: {
       original_url: 'https://github.com/user/awesome-project',
-      domain: 'n3.ink',
+      domain: 'dwz.test',
       custom_code: 'awesome',
       title: '超赞项目',
       description: '一个开源的GitHub项目',

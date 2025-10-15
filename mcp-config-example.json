@@ -1,0 +1,152 @@
+{
+  "mcpServers": {
+    "mliev-dwz-client": {
+      "command": "node",
+      "args": ["/path/mliev-dwz-mcp/src/index.js"],
+      "env": {
+        "REMOTE_BASE_URL": "https://your-short-url",
+        "REMOTE_API_KEY": "your-api-key-here",
+        "API_VERSION": "v1",
+        "REQUEST_TIMEOUT": "10000",
+        "MAX_RETRIES": "3",
+        "RETRY_DELAY": "1000",
+        "MCP_SERVER_NAME": "mliev-dwz-client",
+        "MCP_SERVER_VERSION": "1.0.0",
+        "LOG_LEVEL": "info"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "create_short_url",
+      "description": "创建一个新的短网址。支持自定义域名、短代码、标题和描述信息。",
+      "enabled": true,
+      "examples": [
+        {
+          "description": "创建基本短网址",
+          "input": {
+            "original_url": "https://www.example.com/products/new-laptop",
+            "domain": "short.ly",
+            "title": "新款笔记本电脑",
+            "description": "最新款笔记本电脑产品页面"
+          }
+        },
+        {
+          "description": "创建带自定义代码的短网址",
+          "input": {
+            "original_url": "https://github.com/user/awesome-project",
+            "domain": "dwz.test",
+            "custom_code": "awesome",
+            "title": "超赞项目",
+            "description": "一个开源的GitHub项目",
+            "expire_at": "2024-12-31T23:59:59Z"
+          }
+        }
+      ]
+    },
+    {
+      "name": "get_url_info",
+      "description": "根据短网址ID获取详细信息，包括原始URL、点击统计、创建时间等。",
+      "enabled": true,
+      "examples": [
+        {
+          "description": "获取短网址详情",
+          "input": {
+            "id": 123
+          }
+        }
+      ]
+    },
+    {
+      "name": "list_short_urls",
+      "description": "列出用户的短网址列表，支持分页、域名筛选和关键词搜索。",
+      "enabled": true,
+      "examples": [
+        {
+          "description": "获取所有短网址",
+          "input": {
+            "page": 1,
+            "page_size": 20
+          }
+        },
+        {
+          "description": "按域名筛选短网址",
+          "input": {
+            "page": 1,
+            "page_size": 10,
+            "domain": "dwz.test"
+          }
+        },
+        {
+          "description": "搜索短网址",
+          "input": {
+            "page": 1,
+            "page_size": 10,
+            "keyword": "产品"
+          }
+        }
+      ]
+    },
+    {
+      "name": "delete_short_url",
+      "description": "删除指定的短网址。删除后无法恢复，请谨慎操作。",
+      "enabled": true,
+      "examples": [
+        {
+          "description": "删除短网址",
+          "input": {
+            "id": 123
+          }
+        }
+      ]
+    },
+    {
+      "name": "batch_create_short_urls",
+      "description": "批量创建多个短网址，提高创建效率。最多支持50个URL。",
+      "enabled": true,
+      "examples": [
+        {
+          "description": "批量创建短网址",
+          "input": {
+            "urls": [
+              "https://www.example1.com",
+              "https://www.example2.com",
+              "https://www.example3.com"
+            ],
+            "domain": "short.ly"
+          }
+        }
+      ]
+    },
+    {
+      "name": "list_domains",
+      "description": "获取所有可用的域名列表，包括域名配置信息和状态。",
+      "enabled": true,
+      "examples": [
+        {
+          "description": "获取所有域名",
+          "input": {}
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "autoRetry": true,
+    "maxRetries": 3,
+    "timeout": 30000,
+    "enableLogging": true,
+    "logLevel": "info"
+  },
+  "permissions": {
+    "allowCreate": true,
+    "allowRead": true,
+    "allowUpdate": true,
+    "allowDelete": true,
+    "allowBatchOperations": true
+  },
+  "rateLimit": {
+    "enabled": true,
+    "requestsPerMinute": 100,
+    "burstLimit": 20
+  }
+}
