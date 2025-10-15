@@ -1,5 +1,5 @@
 {
-  "name": "mliev-dwz-mcp",
+  "name": "@muleiwu/dwz-mcp",
   "version": "1.0.0",
   "description": "基于 MCP 协议的短网址客户端，为 AI 助手提供短网址生成和管理功能",
   "main": "src/index.js",
@@ -8,16 +8,11 @@
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "build": "echo 'No build step required for Node.js'",
-    "test": "node --test tests/setup.js tests/**/*.test.js",
-    "test:unit": "node --test tests/setup.js tests/services/*.test.js",
-    "test:integration": "node --test tests/setup.js tests/mcp/**/*.test.js",
-    "test:e2e": "node --test tests/setup.js tests/integration/**/*.test.js",
-    "test:watch": "node --watch --test tests/setup.js tests/**/*.test.js",
-    "test:coverage": "node --test --experimental-test-coverage tests/setup.js tests/**/*.test.js",
-    "test:verbose": "LOG_LEVEL=debug node --test tests/setup.js tests/**/*.test.js",
-    "lint": "eslint src/**/*.js tests/**/*.js",
-    "lint:fix": "eslint src/**/*.js tests/**/*.js --fix",
-    "format": "prettier --write src/**/*.js tests/**/*.js"
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write src/**/*.js",
+    "prepublishOnly": "npm run lint",
+    "prepare": "npm run build"
   },
   "keywords": [
     "mcp",
@@ -26,7 +21,7 @@
     "ai-assistant",
     "model-context-protocol"
   ],
-  "author": "mliev",
+  "author": "muleiwu",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
@@ -45,10 +40,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mliev/mliev-dwz-mcp.git"
+    "url": "https://github.com/muleiwu/mliev-dwz-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/mliev/mliev-dwz-mcp/issues"
+    "url": "https://github.com/muleiwu/mliev-dwz-mcp/issues"
   },
-  "homepage": "https://github.com/mliev/mliev-dwz-mcp#readme"
+  "homepage": "https://github.com/muleiwu/mliev-dwz-mcp#readme"
 }

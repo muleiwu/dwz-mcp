@@ -1,0 +1,47 @@
+# 测试文件和目录
+tests/
+coverage/
+
+# 开发和构建工具
+.github/
+.vscode/
+.idea/
+.husky/
+.eslintrc.js
+.eslintignore
+.prettierrc
+.prettierignore
+.editorconfig
+jest.config.js
+babel.config.js
+rollup.config.js
+tsconfig.json
+mcp-configs.md
+mcp-config-example.json
+
+# 环境和配置文件
+.env
+.env.example
+.env.local
+.env.development
+.env.test
+.env.production
+
+# 日志和临时文件
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+
+# 文档和示例
+docs/
+examples/
+NPM发布指南.md
+CLAUDE.md
+
+# Git相关
+.git/
+.gitignore
+.gitattributes
