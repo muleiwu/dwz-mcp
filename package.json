@@ -8,12 +8,16 @@
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "build": "echo 'No build step required for Node.js'",
-    "test": "node --test tests/**/*.test.js",
-    "test:watch": "node --watch --test tests/**/*.test.js",
-    "test:coverage": "node --test --experimental-test-coverage tests/**/*.test.js",
-    "lint": "eslint src/**/*.js",
-    "lint:fix": "eslint src/**/*.js --fix",
-    "format": "prettier --write src/**/*.js"
+    "test": "node --test tests/setup.js tests/**/*.test.js",
+    "test:unit": "node --test tests/setup.js tests/services/*.test.js",
+    "test:integration": "node --test tests/setup.js tests/mcp/**/*.test.js",
+    "test:e2e": "node --test tests/setup.js tests/integration/**/*.test.js",
+    "test:watch": "node --watch --test tests/setup.js tests/**/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage tests/setup.js tests/**/*.test.js",
+    "test:verbose": "LOG_LEVEL=debug node --test tests/setup.js tests/**/*.test.js",
+    "lint": "eslint src/**/*.js tests/**/*.js",
+    "lint:fix": "eslint src/**/*.js tests/**/*.js --fix",
+    "format": "prettier --write src/**/*.js tests/**/*.js"
   },
   "keywords": [
     "mcp",

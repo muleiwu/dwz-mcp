@@ -316,10 +316,11 @@ export class ErrorHandler {
   /**
    * 创建 MCP 错误响应
    * @param {CustomError} error - 自定义错误对象
+   * @param {Object} originalError - 原始错误对象（可选）
    * @returns {Object} MCP 错误响应格式
    */
-  static createMcpErrorResponse(error) {
-    return {
+  static createMcpErrorResponse(error, originalError = null) {
+    const errorResponse = {
       success: false,
       error: {
         code: error.code,
@@ -328,6 +329,39 @@ export class ErrorHandler {
         timestamp: error.timestamp,
       },
     };
+
+    // 在调试模式下添加更多原始错误信息
+    if (this.isDebugEnabled()) {
+      errorResponse.debug = {
+        originalError: {
+          message: originalError?.message || error.message,
+          stack: originalError?.stack || error.stack,
+          name: originalError?.name || error.name,
+          code: originalError?.code,
+          config: originalError?.config ? {
+            url: originalError.config.url,
+            method: originalError.config.method,
+            headers: this.sanitizeHeaders(originalError.config.headers),
+            data: originalError.config.data,
+            params: originalError.config.params,
+          } : null,
+          response: originalError?.response ? {
+            status: originalError.response.status,
+            statusText: originalError.response.statusText,
+            headers: this.sanitizeHeaders(originalError.response.headers),
+            data: originalError.response.data,
+          } : null,
+        },
+        handledError: {
+          message: error.message,
+          code: error.code,
+          statusCode: error.statusCode,
+          details: error.details,
+        },
+      };
+    }
+
+    return errorResponse;
   }
 
   /**
@@ -374,6 +408,63 @@ export class ErrorHandler {
     ];
 
     return retryableCodes.includes(error.code);
+  }
+
+  /**
+   * 检查是否为调试模式
+   * @returns {boolean} 是否为调试模式
+   */
+  static isDebugEnabled() {
+    return process.env.LOG_LEVEL === 'debug' || process.env.NODE_ENV === 'development';
+  }
+
+  /**
+   * 清理请求头，移除敏感信息
+   * @param {Object} headers - 请求头对象
+   * @returns {Object} 清理后的请求头
+   */
+  static sanitizeHeaders(headers) {
+    if (!headers) return null;
+
+    const sanitized = { ...headers };
+    const sensitiveKeys = ['authorization', 'api-key', 'x-api-key', 'token'];
+
+    for (const key of Object.keys(sanitized)) {
+      if (sensitiveKeys.includes(key.toLowerCase())) {
+        sanitized[key] = '***REDACTED***';
+      }
+    }
+
+    return sanitized;
+  }
+
+  /**
+   * 格式化服务端错误信息
+   * @param {Object} serverResponse - 服务端响应
+   * @returns {Object} 格式化后的错误信息
+   */
+  static formatServerError(serverResponse) {
+    if (!serverResponse) return null;
+
+    const formatted = {
+      status: serverResponse.status,
+      statusText: serverResponse.statusText,
+      timestamp: new Date().toISOString(),
+    };
+
+    if (serverResponse.data) {
+      formatted.response = {
+        code: serverResponse.data.code,
+        message: serverResponse.data.message,
+        data: serverResponse.data.data,
+      };
+    }
+
+    if (serverResponse.headers) {
+      formatted.headers = this.sanitizeHeaders(serverResponse.headers);
+    }
+
+    return formatted;
   }
 }
 

@@ -9,6 +9,26 @@ import { DEFAULT_CONFIG, getRequestConfig, getLogger } from '../config/remoteCon
 const logger = getLogger();
 
 /**
+ * 清理请求头，移除敏感信息
+ * @param {Object} headers - 请求头对象
+ * @returns {Object} 清理后的请求头
+ */
+function sanitizeHeaders(headers) {
+  if (!headers) return null;
+
+  const sanitized = { ...headers };
+  const sensitiveKeys = ['authorization', 'api-key', 'x-api-key', 'token', 'cookie'];
+
+  for (const key of Object.keys(sanitized)) {
+    if (sensitiveKeys.includes(key.toLowerCase())) {
+      sanitized[key] = '***REDACTED***';
+    }
+  }
+
+  return sanitized;
+}
+
+/**
  * 创建 axios 实例
  * @param {Object} customConfig - 自定义配置
  * @returns {Object} axios 实例
@@ -44,12 +64,62 @@ function createAxiosInstance(customConfig = {}) {
   instance.interceptors.response.use(
     (response) => {
       logger.debug(`收到响应 ${response.status} 从 ${response.config.url}`, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+        dataSize: JSON.stringify(response.data || {}).length,
         data: response.data,
       });
       return response;
     },
     (error) => {
-      logger.error('响应拦截器错误:', error);
+      // 详细的错误日志
+      logger.error('HTTP请求失败:', {
+        url: error.config?.url,
+        method: error.config?.method,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        message: error.message,
+        code: error.code,
+        config: error.config ? {
+          headers: sanitizeHeaders(error.config.headers),
+          data: error.config.data,
+          params: error.config.params,
+          timeout: error.config.timeout,
+        } : null,
+        response: error.response ? {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          headers: sanitizeHeaders(error.response.headers),
+          data: error.response.data,
+        } : null,
+        stack: error.stack,
+      });
+
+      // 在调试模式下添加更详细的错误信息
+      if (process.env.LOG_LEVEL === 'debug' || process.env.NODE_ENV === 'development') {
+        console.error('🔍 详细错误信息:', {
+          request: {
+            url: error.config?.url,
+            method: error.config?.method,
+            headers: sanitizeHeaders(error.config?.headers),
+            data: error.config?.data,
+          },
+          response: error.response ? {
+            status: error.response.status,
+            statusText: error.response.statusText,
+            headers: sanitizeHeaders(error.response.headers),
+            data: error.response.data,
+          } : null,
+          error: {
+            name: error.name,
+            message: error.message,
+            code: error.code,
+            stack: error.stack,
+          },
+        });
+      }
+
       return Promise.reject(error);
     }
   );
@@ -152,12 +222,19 @@ class HttpClient {
    * @returns {Promise} Promise 对象
    */
   async get(url, params = {}, options = {}) {
+    const config = { params, ...options };
+    this.logDetailedRequest('GET', url, config);
+
     return executeWithRetry(
       async () => {
-        const response = await this.instance.get(url, {
-          params,
-          ...options,
-        });
+        const startTime = Date.now();
+        const response = await this.instance.get(url, config);
+
+        // 计算请求耗时
+        const duration = Date.now() - startTime;
+        response.config.metadata = { duration };
+
+        this.logDetailedResponse(response);
         return response.data;
       },
       options
@@ -172,9 +249,19 @@ class HttpClient {
    * @returns {Promise} Promise 对象
    */
   async post(url, data = {}, options = {}) {
+    const config = { ...options };
+    this.logDetailedRequest('POST', url, { ...config, data });
+
     return executeWithRetry(
       async () => {
-        const response = await this.instance.post(url, data, options);
+        const startTime = Date.now();
+        const response = await this.instance.post(url, data, config);
+
+        // 计算请求耗时
+        const duration = Date.now() - startTime;
+        response.config.metadata = { duration };
+
+        this.logDetailedResponse(response);
         return response.data;
       },
       options
@@ -189,9 +276,19 @@ class HttpClient {
    * @returns {Promise} Promise 对象
    */
   async put(url, data = {}, options = {}) {
+    const config = { ...options };
+    this.logDetailedRequest('PUT', url, { ...config, data });
+
     return executeWithRetry(
       async () => {
-        const response = await this.instance.put(url, data, options);
+        const startTime = Date.now();
+        const response = await this.instance.put(url, data, config);
+
+        // 计算请求耗时
+        const duration = Date.now() - startTime;
+        response.config.metadata = { duration };
+
+        this.logDetailedResponse(response);
         return response.data;
       },
       options
@@ -205,9 +302,19 @@ class HttpClient {
    * @returns {Promise} Promise 对象
    */
   async delete(url, options = {}) {
+    const config = { ...options };
+    this.logDetailedRequest('DELETE', url, config);
+
     return executeWithRetry(
       async () => {
-        const response = await this.instance.delete(url, options);
+        const startTime = Date.now();
+        const response = await this.instance.delete(url, config);
+
+        // 计算请求耗时
+        const duration = Date.now() - startTime;
+        response.config.metadata = { duration };
+
+        this.logDetailedResponse(response);
         return response.data;
       },
       options
@@ -222,9 +329,19 @@ class HttpClient {
    * @returns {Promise} Promise 对象
    */
   async patch(url, data = {}, options = {}) {
+    const config = { ...options };
+    this.logDetailedRequest('PATCH', url, { ...config, data });
+
     return executeWithRetry(
       async () => {
-        const response = await this.instance.patch(url, data, options);
+        const startTime = Date.now();
+        const response = await this.instance.patch(url, data, config);
+
+        // 计算请求耗时
+        const duration = Date.now() - startTime;
+        response.config.metadata = { duration };
+
+        this.logDetailedResponse(response);
         return response.data;
       },
       options
@@ -268,6 +385,103 @@ class HttpClient {
       });
       this.activeRequests = {};
     }
+  }
+
+  /**
+   * 检查是否为调试模式
+   * @returns {boolean} 是否为调试模式
+   */
+  isDebugEnabled() {
+    return process.env.LOG_LEVEL === 'debug' || process.env.NODE_ENV === 'development';
+  }
+
+  /**
+   * 清理请求头，移除敏感信息
+   * @param {Object} headers - 请求头对象
+   * @returns {Object} 清理后的请求头
+   */
+  sanitizeHeaders(headers) {
+    if (!headers) return null;
+
+    const sanitized = { ...headers };
+    const sensitiveKeys = ['authorization', 'api-key', 'x-api-key', 'token', 'cookie'];
+
+    for (const key of Object.keys(sanitized)) {
+      if (sensitiveKeys.includes(key.toLowerCase())) {
+        sanitized[key] = '***REDACTED***';
+      }
+    }
+
+    return sanitized;
+  }
+
+  /**
+   * 记录详细的请求信息
+   * @param {string} method - HTTP方法
+   * @param {string} url - 请求URL
+   * @param {Object} config - 请求配置
+   */
+  logDetailedRequest(method, url, config) {
+    if (!this.isDebugEnabled()) return;
+
+    console.log('🔍 详细请求信息:', {
+      method,
+      url,
+      headers: this.sanitizeHeaders(config.headers),
+      data: config.data,
+      params: config.params,
+      timeout: config.timeout,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  /**
+   * 记录详细的响应信息
+   * @param {Object} response - HTTP响应
+   */
+  logDetailedResponse(response) {
+    if (!this.isDebugEnabled()) return;
+
+    console.log('📥 详细响应信息:', {
+      status: response.status,
+      statusText: response.statusText,
+      headers: this.sanitizeHeaders(response.headers),
+      dataSize: JSON.stringify(response.data || {}).length,
+      data: response.data,
+      duration: response.config?.metadata?.duration,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  /**
+   * 记录详细的错误信息
+   * @param {Error} error - 错误对象
+   * @param {Object} config - 请求配置
+   */
+  logDetailedError(error, config) {
+    if (!this.isDebugEnabled()) return;
+
+    console.error('💥 详细错误信息:', {
+      name: error.name,
+      message: error.message,
+      code: error.code,
+      stack: error.stack,
+      config: config ? {
+        url: config.url,
+        method: config.method,
+        headers: this.sanitizeHeaders(config.headers),
+        data: config.data,
+        params: config.params,
+        timeout: config.timeout,
+      } : null,
+      response: error.response ? {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        headers: this.sanitizeHeaders(error.response.headers),
+        data: error.response.data,
+      } : null,
+      timestamp: new Date().toISOString(),
+    });
   }
 }
 

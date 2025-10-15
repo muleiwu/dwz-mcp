@@ -115,7 +115,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('创建短链接失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
@@ -149,7 +150,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('获取短链接信息失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
@@ -191,7 +193,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('更新短链接失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
@@ -221,7 +224,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('删除短链接失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
@@ -264,7 +268,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('批量创建短链接失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
@@ -305,7 +310,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('获取统计信息失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
@@ -358,7 +364,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('列出短链接失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
@@ -392,7 +399,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('预览短链接失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
@@ -437,7 +445,8 @@ export class ShortLinkService {
 
     } catch (error) {
       logger.error('获取域名列表失败:', error);
-      throw ErrorHandler.handle(error);
+      const handledError = ErrorHandler.handle(error);
+      throw ErrorHandler.createMcpErrorResponse(handledError, error);
     }
   }
 
