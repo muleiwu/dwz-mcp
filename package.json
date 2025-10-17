@@ -40,10 +40,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/muleiwu/mliev-dwz-mcp.git"
+    "url": "https://github.com:muleiwu/dwz-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/muleiwu/mliev-dwz-mcp/issues"
+    "url": "https://github.com/muleiwu/dwz-mcp/issues"
   },
-  "homepage": "https://github.com/muleiwu/mliev-dwz-mcp#readme"
+  "homepage": "https://github.com/muleiwu/dwz-mcp#readme"
 }
