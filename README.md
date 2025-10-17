@@ -18,6 +18,30 @@
 - Node.js >= 18.0.0
 - npm 或 yarn
 
+### 直接使用MCP
+
+```json
+{
+  "mcpServers": {
+    "dwz-mcp": {
+      "name": "dwz-mcp",
+      "type": "stdio",
+      "isActive": true,
+      "registryUrl": "",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@muleiwu/dwz-mcp"
+      ],
+      "env": {
+        "REMOTE_BASE_URL": "您的短网址服务地址",
+        "REMOTE_API_KEY": "apiKey"
+      }
+    }
+  }
+}
+```
+
 ### 安装依赖
 
 ```bash
