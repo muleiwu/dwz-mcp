@@ -379,7 +379,7 @@ LOG_LEVEL=debug npm start
 如果遇到问题或有建议，请：
 
 1. 查看 [故障排除](#故障排除) 部分
-2. 搜索现有的 [Issues](https://github.com/mliev/mliev-dwz-mcp/issues)
+2. 搜索现有的 [Issues](https://github.com/muleiwu/dwz-mcp/issues)
 3. 创建新的 Issue 描述问题
 
 ## 📊 版本历史
