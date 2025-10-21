@@ -1,6 +1,42 @@
 # Mliev 短网址 MCP 客户端
 
-基于 MCP（Model Context Protocol）协议的短网址管理客户端，为 AI 助手提供完整的短网址生成、管理和统计功能。
+基于 MCP（Model Context Protocol）协议的短网址管理客户端，为 AI 助手提供完整的短网址生成、管理和统计功能。本项目的 MCP 服务端基于 [dwz-server](https://github.com/muleiwu/dwz-server) 项目的 API 接口实现。
+
+## 🏛️ 服务端架构
+
+本 MCP 客户端调用的是基于 [dwz-server](https://github.com/muleiwu/dwz-server) 项目的短网址服务 API。dwz-server 是一个基于 Go 语言开发的高性能短网址服务，提供完整的短网址生成、管理和统计功能。
+
+### 使用 Docker 部署 dwz-server
+
+推荐使用 Docker 部署 dwz-server 作为 MCP 客户端的后端服务：
+
+```yaml
+# docker-compose.yml
+services:
+  dwz-server:
+    container_name: dwz-server
+    image: docker.cnb.cool/mliev/open/dwz-server:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./config/:/app/config/"
+    environment:
+      - TZ=Asia/Shanghai
+      - GIN_MODE=release
+```
+
+启动服务：
+
+```bash
+docker-compose up -d
+```
+
+服务启动后，API 地址为 `http://localhost:8080`，在 MCP 客户端配置中设置：
+
+```bash
+REMOTE_BASE_URL=http://localhost:8080
+```
 
 ## ✨ 功能特性
 
