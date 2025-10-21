@@ -1,14 +1,14 @@
-# Mliev 短网址 MCP 客户端
+# Mliev Short URL MCP Client
 
-基于 MCP（Model Context Protocol）协议的短网址管理客户端，为 AI 助手提供完整的短网址生成、管理和统计功能。本项目的 MCP 服务端基于 [dwz-server](https://github.com/muleiwu/dwz-server) 项目的 API 接口实现。
+A short URL management client based on MCP (Model Context Protocol) protocol, providing complete short URL generation, management, and statistics functionality for AI assistants. This MCP server is implemented based on the API interface of the [dwz-server](https://github.com/muleiwu/dwz-server) project.
 
-## 🏛️ 服务端架构
+## 🏛️ Server Architecture
 
-本 MCP 客户端调用的是基于 [dwz-server](https://github.com/muleiwu/dwz-server) 项目的短网址服务 API。dwz-server 是一个基于 Go 语言开发的高性能短网址服务，提供完整的短网址生成、管理和统计功能。
+This MCP client calls the short URL service API based on the [dwz-server](https://github.com/muleiwu/dwz-server) project. dwz-server is a high-performance short URL service developed in Go language, providing complete short URL generation, management, and statistics functionality.
 
-### 使用 Docker 部署 dwz-server
+### Deploy dwz-server with Docker
 
-推荐使用 Docker 部署 dwz-server 作为 MCP 客户端的后端服务：
+It is recommended to deploy dwz-server using Docker as the backend service for the MCP client:
 
 ```yaml
 # docker-compose.yml
@@ -26,35 +26,35 @@ services:
       - GIN_MODE=release
 ```
 
-启动服务：
+Start the service:
 
 ```bash
 docker-compose up -d
 ```
 
-服务启动后，API 地址为 `http://localhost:8080`，在 MCP 客户端配置中设置：
+After the service starts, the API address will be `http://localhost:8080`. Configure it in the MCP client:
 
 ```bash
 REMOTE_BASE_URL=http://localhost:8080
 ```
 
-## ✨ 功能特性
+## ✨ Features
 
-- 🔗 **短网址创建**: 支持自定义域名、短代码、标题和描述
-- 📋 **批量操作**: 一次性创建多个短网址，提高效率
-- 🔍 **搜索筛选**: 支持域名筛选和关键词搜索
-- 📊 **统计分析**: 获取详细的点击统计信息
-- 🛡️ **错误处理**: 完善的错误处理和重试机制
-- 🔒 **安全认证**: 基于 Bearer Token 的 API 认证
+- 🔗 **Short URL Creation**: Support custom domains, short codes, titles, and descriptions
+- 📋 **Batch Operations**: Create multiple short URLs at once to improve efficiency
+- 🔍 **Search & Filter**: Support domain filtering and keyword search
+- 📊 **Statistics & Analytics**: Get detailed click statistics information
+- 🛡️ **Error Handling**: Comprehensive error handling and retry mechanisms
+- 🔒 **Security Authentication**: API authentication based on Bearer Token
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 环境要求
+### Prerequisites
 
 - Node.js >= 18.0.0
-- npm 或 yarn
+- npm or yarn
 
-### 直接使用MCP
+### Direct MCP Usage
 
 ```json
 {
@@ -70,7 +70,7 @@ REMOTE_BASE_URL=http://localhost:8080
         "@muleiwu/dwz-mcp"
       ],
       "env": {
-        "REMOTE_BASE_URL": "您的短网址服务地址",
+        "REMOTE_BASE_URL": "Your short URL service address",
         "REMOTE_API_KEY": "apiKey"
       }
     }
@@ -78,74 +78,74 @@ REMOTE_BASE_URL=http://localhost:8080
 }
 ```
 
-### 安装依赖
+### Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 配置环境变量
+### Configure Environment Variables
 
-复制环境变量模板并配置：
+Copy the environment variable template and configure:
 
 ```bash
 cp .env.example .env
 ```
 
-编辑 `.env` 文件：
+Edit the `.env` file:
 
 ```bash
-# 远程短网址服务器配置
+# Remote short URL server configuration
 REMOTE_BASE_URL=https://api.example.com
 REMOTE_API_KEY=your-api-key-here
 
-# 其他可选配置
+# Other optional configuration
 REQUEST_TIMEOUT=10000
 MAX_RETRIES=3
 LOG_LEVEL=info
 ```
 
-### 启动服务
+### Start Service
 
 ```bash
-# 开发模式
+# Development mode
 npm run dev
 
-# 生产模式
+# Production mode
 npm start
 ```
 
-## 📖 MCP 工具列表
+## 📖 MCP Tool List
 
 ### 1. create_short_url
-创建新的短网址
+Create a new short URL
 
-**参数：**
-- `original_url` (必填): 原始URL地址
-- `domain` (必填): 短网址域名
-- `title` (必填): 网页标题
-- `custom_code` (可选): 自定义短代码
-- `description` (可选): 描述信息
-- `expire_at` (可选): 过期时间
+**Parameters:**
+- `original_url` (required): Original URL address
+- `domain` (required): Short URL domain
+- `title` (required): Web page title
+- `custom_code` (optional): Custom short code
+- `description` (optional): Description information
+- `expire_at` (optional): Expiration time
 
-**示例：**
+**Example:**
 ```json
 {
   "original_url": "https://www.example.com/products",
   "domain": "short.ly",
-  "title": "产品页面",
-  "description": "我们的产品展示页面",
+  "title": "Product Page",
+  "description": "Our product showcase page",
   "custom_code": "products"
 }
 ```
 
 ### 2. get_url_info
-获取短网址详细信息
+Get detailed information about a short URL
 
-**参数：**
-- `id` (必填): 短网址ID
+**Parameters:**
+- `id` (required): Short URL ID
 
-**示例：**
+**Example:**
 ```json
 {
   "id": 123
@@ -153,31 +153,31 @@ npm start
 ```
 
 ### 3. list_short_urls
-列出短网址，支持分页和搜索
+List short URLs with pagination and search support
 
-**参数：**
-- `page` (可选): 页码，默认1
-- `page_size` (可选): 每页数量，默认10
-- `domain` (可选): 域名筛选
-- `keyword` (可选): 搜索关键词
+**Parameters:**
+- `page` (optional): Page number, default 1
+- `page_size` (optional): Items per page, default 10
+- `domain` (optional): Domain filter
+- `keyword` (optional): Search keyword
 
-**示例：**
+**Example:**
 ```json
 {
   "page": 1,
   "page_size": 20,
   "domain": "short.ly",
-  "keyword": "产品"
+  "keyword": "product"
 }
 ```
 
 ### 4. delete_short_url
-删除短网址
+Delete a short URL
 
-**参数：**
-- `id` (必填): 短网址ID
+**Parameters:**
+- `id` (required): Short URL ID
 
-**示例：**
+**Example:**
 ```json
 {
   "id": 123
@@ -185,13 +185,13 @@ npm start
 ```
 
 ### 5. batch_create_short_urls
-批量创建短网址
+Batch create short URLs
 
-**参数：**
-- `urls` (必填): URL数组（最多50个）
-- `domain` (必填): 短网址域名
+**Parameters:**
+- `urls` (required): URL array (maximum 50)
+- `domain` (required): Short URL domain
 
-**示例：**
+**Example:**
 ```json
 {
   "urls": [
@@ -203,188 +203,188 @@ npm start
 ```
 
 ### 6. list_domains
-获取所有可用域名列表
+Get list of all available domains
 
-**参数：** 无需参数
+**Parameters:** None required
 
-**示例：**
+**Example:**
 ```json
 {}
 ```
 
-**返回信息：**
-- 域名基本信息：ID、域名、协议
-- 网站信息：网站名称、备案信息
-- 配置信息：是否激活、参数透传设置
-- 统计信息：总数、激活数量、未激活数量
+**Return Information:**
+- Domain basic information: ID, domain, protocol
+- Website information: website name, registration information
+- Configuration information: activation status, parameter pass-through settings
+- Statistics information: total count, active count, inactive count
 
-## 🏗️ 项目结构
+## 🏗️ Project Structure
 
 ```
 mliev-dwz-mcp/
 ├── src/
-│   ├── index.js                 # 入口文件
+│   ├── index.js                 # Entry file
 │   ├── config/
-│   │   └── remoteConfig.js      # 配置管理
+│   │   └── remoteConfig.js      # Configuration management
 │   ├── services/
-│   │   ├── httpClient.js        # HTTP客户端
-│   │   └── shortLinkService.js  # 短链接服务
+│   │   ├── httpClient.js        # HTTP client
+│   │   └── shortLinkService.js  # Short link service
 │   ├── utils/
-│   │   ├── validation.js        # 参数验证
-│   │   └── errorHandler.js      # 错误处理
+│   │   ├── validation.js        # Parameter validation
+│   │   └── errorHandler.js      # Error handling
 │   └── mcp/
-│       ├── server.js            # MCP服务器
-│       └── tools/               # MCP工具
+│       ├── server.js            # MCP server
+│       └── tools/               # MCP tools
 │           ├── createShortUrl.js
 │           ├── getUrlInfo.js
 │           ├── listShortUrls.js
 │           ├── deleteShortUrl.js
 │           ├── batchCreateShortUrls.js
 │           └── listDomains.js
-├── tests/                       # 测试文件
-├── package.json                 # 项目配置
-├── .env.example                 # 环境变量模板
-└── README.md                    # 项目说明
+├── tests/                       # Test files
+├── package.json                 # Project configuration
+├── .env.example                 # Environment variable template
+└── README.md                    # Project documentation
 ```
 
-## 🔧 开发指南
+## 🔧 Development Guide
 
-### 可用脚本
+### Available Scripts
 
 ```bash
-# 启动开发服务器（热重载）
+# Start development server (hot reload)
 npm run dev
 
-# 构建项目
+# Build project
 npm run build
 
-# 运行生产环境
+# Run production environment
 npm start
 
-# 运行测试
+# Run tests
 npm test
 
-# 代码检查
+# Code linting
 npm run lint
 
-# 自动修复代码格式
+# Auto-fix code formatting
 npm run format
 ```
 
-### 添加新工具
+### Adding New Tools
 
-1. 在 `src/mcp/tools/` 目录下创建新工具文件
-2. 实现工具对象，包含 `name`、`description`、`inputSchema` 和 `handler`
-3. 在 `src/mcp/server.js` 中注册新工具
+1. Create a new tool file in the `src/mcp/tools/` directory
+2. Implement the tool object, including `name`, `description`, `inputSchema`, and `handler`
+3. Register the new tool in `src/mcp/server.js`
 
-### 错误处理
+### Error Handling
 
-项目使用统一的错误处理机制：
+The project uses a unified error handling mechanism:
 
-- `ErrorHandler.asyncWrapper()`: 包装异步函数，自动处理错误
-- `CustomError`: 自定义错误基类
-- `ValidationError`: 参数验证错误
-- `NetworkError`: 网络请求错误
+- `ErrorHandler.asyncWrapper()`: Wrap async functions, automatically handle errors
+- `CustomError`: Custom error base class
+- `ValidationError`: Parameter validation error
+- `NetworkError`: Network request error
 
-## 📝 API 规范
+## 📝 API Specification
 
-### 响应格式
+### Response Format
 
-所有API响应都遵循统一格式：
+All API responses follow a unified format:
 
 ```json
 {
   "success": true,
-  "message": "操作成功",
+  "message": "Operation successful",
   "data": {
-    // 响应数据
+    // Response data
   },
   "meta": {
-    "operation": "操作名称",
+    "operation": "Operation name",
     "timestamp": "2024-01-01T00:00:00.000Z"
   }
 }
 ```
 
-### 错误响应
+### Error Response
 
 ```json
 {
   "success": false,
   "error": {
     "code": "ERROR_CODE",
-    "message": "错误描述",
+    "message": "Error description",
     "details": {},
     "timestamp": "2024-01-01T00:00:00.000Z"
   }
 }
 ```
 
-## 🔐 配置说明
+## 🔐 Configuration Instructions
 
-### 环境变量
+### Environment Variables
 
-| 变量名 | 说明 | 默认值 | 必填 |
-|--------|------|--------|------|
-| `REMOTE_BASE_URL` | 远程服务器地址 | - | ✅ |
-| `REMOTE_API_KEY` | API密钥 | - | ✅ |
-| `API_VERSION` | API版本 | v1 | ❌ |
-| `REQUEST_TIMEOUT` | 请求超时时间(ms) | 10000 | ❌ |
-| `MAX_RETRIES` | 最大重试次数 | 3 | ❌ |
-| `LOG_LEVEL` | 日志级别 | info | ❌ |
+| Variable Name | Description | Default Value | Required |
+|---------------|-------------|---------------|----------|
+| `REMOTE_BASE_URL` | Remote server address | - | ✅ |
+| `REMOTE_API_KEY` | API key | - | ✅ |
+| `API_VERSION` | API version | v1 | ❌ |
+| `REQUEST_TIMEOUT` | Request timeout (ms) | 10000 | ❌ |
+| `MAX_RETRIES` | Maximum retry count | 3 | ❌ |
+| `LOG_LEVEL` | Log level | info | ❌ |
 
-### 域名配置
+### Domain Configuration
 
-确保使用的域名在远程短网址服务中已正确配置。
+Ensure that the domains used are correctly configured in the remote short URL service.
 
-## 🚨 故障排除
+## 🚨 Troubleshooting
 
-### 常见问题
+### Common Issues
 
-1. **连接失败**
-   - 检查 `REMOTE_BASE_URL` 和 `REMOTE_API_KEY` 配置
-   - 确认网络连接正常
-   - 验证远程服务状态
+1. **Connection Failed**
+   - Check `REMOTE_BASE_URL` and `REMOTE_API_KEY` configuration
+   - Confirm network connection is normal
+   - Verify remote service status
 
-2. **认证失败**
-   - 确认 API 密钥正确
-   - 检查密钥是否有足够权限
+2. **Authentication Failed**
+   - Confirm API key is correct
+   - Check if the key has sufficient permissions
 
-3. **参数验证失败**
-   - 检查参数格式是否正确
-   - 确认必填参数都已提供
+3. **Parameter Validation Failed**
+   - Check if parameter format is correct
+   - Confirm all required parameters are provided
 
-### 日志调试
+### Log Debugging
 
-设置日志级别为 debug 查看详细信息：
+Set log level to debug to view detailed information:
 
 ```bash
 LOG_LEVEL=debug npm start
 ```
 
-## 🤝 贡献指南
+## 🤝 Contributing Guide
 
-1. Fork 项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+1. Fork the project
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 许可证
+## 📄 License
 
-本项目基于 MIT 许可证开源 - 查看 [LICENSE](LICENSE) 文件了解详情。
+This project is open source under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 支持
+## 🆘 Support
 
-如果遇到问题或有建议，请：
+If you encounter problems or have suggestions, please:
 
-1. 查看 [故障排除](#故障排除) 部分
-2. 搜索现有的 [Issues](https://github.com/muleiwu/dwz-mcp/issues)
-3. 创建新的 Issue 描述问题
+1. Check the [Troubleshooting](#troubleshooting) section
+2. Search existing [Issues](https://github.com/muleiwu/dwz-mcp/issues)
+3. Create a new Issue describing the problem
 
-## 📊 版本历史
+## 📊 Version History
 
-- **v1.0.0** - 初始版本
-  - 基本的短网址管理功能
-  - MCP 协议支持
-  - 完整的错误处理机制
+- **v1.0.0** - Initial version
+  - Basic short URL management functionality
+  - MCP protocol support
+  - Complete error handling mechanism
