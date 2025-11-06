@@ -2,6 +2,10 @@
 
 A short URL management client based on MCP (Model Context Protocol) protocol, providing complete short URL generation, management, and statistics functionality for AI assistants. This MCP server is implemented based on the API interface of the [dwz-server](https://github.com/muleiwu/dwz-server) project.
 
+<a href="https://glama.ai/mcp/servers/@muleiwu/dwz-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@muleiwu/dwz-mcp/badge" alt="DWZ Short URL Server MCP server" />
+</a>
+
 ## 🏛️ Server Architecture
 
 This MCP client calls the short URL service API based on the [dwz-server](https://github.com/muleiwu/dwz-server) project. dwz-server is a high-performance short URL service developed in Go language, providing complete short URL generation, management, and statistics functionality.
